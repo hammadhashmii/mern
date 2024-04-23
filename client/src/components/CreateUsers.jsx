@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
-
+import Swal from 'sweetalert2';
 const CreateUsers=()=> {
     
   const [name, setName] = useState()
@@ -14,8 +14,16 @@ const CreateUsers=()=> {
     e.preventDefault();
     axios.post("http://localhost:3001/createUsers", { name, email, age })
       .then(result => {
-        console.log(result)
-        navigate('/');
+        console.log(result);
+        // Show success message with SweetAlert
+        Swal.fire({
+          icon: 'success',
+          title: 'Success!',
+          text: 'User created successfully!',
+        }).then(() => {
+          // Navigate to home page
+          navigate('/');
+        });
         // Reset the values after successful submission
         setName('');
         setEmail('');
@@ -23,10 +31,11 @@ const CreateUsers=()=> {
       })
       .catch(err => console.log(err));
   }
-
     return(
         <>
+        
         <div className="container vh-100 d-flex justify-content-center align-items-center flex-column">
+        <h1>Create User</h1>
           <form onSubmit={SubmitHandler}> 
         <div className="col-6">
         <label htmlFor="" className="form-label">Name</label>
