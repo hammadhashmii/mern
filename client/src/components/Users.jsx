@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import Swal from 'sweetalert2';
 
 
 function Users() {
@@ -14,19 +15,44 @@ function Users() {
       .catch(err => console.log(err))
     }, [])
 
-    const deleteHandler = (id) => {
-      const confirmDelete = window.confirm("Please confirm to delete!");
+    // const deleteHandler = (id) => {
+    //   const confirmDelete = window.confirm("Please confirm to delete!");
     
-      if (confirmDelete) {
-        axios.delete("http://localhost:3001/deleteusers/" + id)
-          .then(result => {
-            console.log(result);
-            // navigate('/fdfdf');
-            window.location.reload();
-          })
-          .catch(err => console.log(err));
-      }
+    //   if (confirmDelete) {
+    //     axios.delete("http://localhost:3001/deleteusers/" + id)
+    //       .then(result => {
+    //         console.log(result);
+    //         // navigate('/fdfdf');
+    //         window.location.reload();
+    //       })
+    //       .catch(err => console.log(err));
+    //   }
+    // }
+
+    
+
+const deleteHandler = (id) => {
+  Swal.fire({
+    title: 'Please confirm to delete!',
+    text: 'Are you sure you want to delete this item?',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, delete it!'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      axios.delete("http://localhost:3001/deleteusers/" + id)
+        .then(result => {
+          console.log(result);
+          // navigate('/fdfdf');
+          window.location.reload();
+        })
+        .catch(err => console.log(err));
     }
+  });
+}
+
  
 
     return(
